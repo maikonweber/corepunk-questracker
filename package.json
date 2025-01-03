@@ -1,0 +1,12 @@
+{
+  "name": "electron-quest-tracker",
+  "version": "1.0.0",
+  "description": "Quest Tracker com atalho global",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^33.2.1"
+  }
+}

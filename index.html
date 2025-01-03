@@ -1,0 +1,88 @@
+// index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quest Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #2b2b2b;
+            color: #ffffff;
+        }
+        
+        .quest-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .quest-item {
+            background-color: #3b3b3b;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .quest-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #4b4b4b;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+        }
+        
+        .quest-input:focus {
+            outline: none;
+            box-shadow: 0 0 5px rgba(255,255,255,0.3);
+        }
+        
+        .complete-btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="questInput" class="quest-input" placeholder="Adicionar nova quest...">
+    <ul id="questList" class="quest-list"></ul>
+
+    <script>
+        const questInput = document.getElementById('questInput');
+        const questList = document.getElementById('questList');
+        
+        questInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && this.value.trim()) {
+                addQuest(this.value);
+                this.value = '';
+            }
+        });
+        
+        function addQuest(text) {
+            const li = document.createElement('li');
+            li.className = 'quest-item';
+            
+            const questText = document.createElement('span');
+            questText.textContent = text;
+            
+            const completeBtn = document.createElement('button');
+            completeBtn.className = 'complete-btn';
+            completeBtn.textContent = 'Completar';
+            completeBtn.onclick = function() {
+                li.remove();
+            };
+            
+            li.appendChild(questText);
+            li.appendChild(completeBtn);
+            questList.appendChild(li);
+        }
+    </script>
+</body>
+</html>
