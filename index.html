@@ -1,7 +1,8 @@
-// index.html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quest Tracker</title>
     <style>
         body {
@@ -48,15 +49,35 @@
             cursor: pointer;
             float: right;
         }
+        
+        #questData {
+            margin-top: 20px;
+            color: #ffffff;
+        }
+        
+        #questData pre {
+            background-color: #3b3b3b;
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
+    <h1>Quest Tracker</h1>
     <input type="text" id="questInput" class="quest-input" placeholder="Adicionar nova quest...">
+    <button id="loadQuestData" class="complete-btn">Carregar Dados da Quest</button>
     <ul id="questList" class="quest-list"></ul>
+    
+    <div id="questData">
+        <h3>Quest Details:</h3>
+        <pre id="questDetails"></pre>
+    </div>
 
     <script>
         const questInput = document.getElementById('questInput');
         const questList = document.getElementById('questList');
+        const loadQuestDataBtn = document.getElementById('loadQuestData');
+        const questDetails = document.getElementById('questDetails');
         
         questInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter' && this.value.trim()) {
@@ -83,6 +104,39 @@
             li.appendChild(completeBtn);
             questList.appendChild(li);
         }
+
+        // Handle button click to load quest data
+        loadQuestDataBtn.addEventListener('click', async () => {
+            const questId = prompt("Digite o ID da Quest:");
+            
+            if (questId) {
+                try {
+                    // Query the quest data from the main process
+                    const questData = await window.electron.getQuestData(questId);
+                    const goals = await window.electron.getGoals(questId);
+                    const comments = await window.electron.getComments(questId);
+
+                    // Display quest data
+                    questDetails.textContent = `
+                        Quest ID: ${questData[0].id || 'N/A'}
+                        Quest Name: ${questData[0].name || 'N/A'}
+                        NPC ID: ${questData[0].npc_id || 'N/A'}
+                        Description: ${questData[0].description || 'N/A'}
+                        URL: ${questData[0].url || 'N/A'}
+                        
+                        Goals:
+                        ${goals.map(goal => goal.description).join('\n')}
+                        
+                        Comments:
+                        ${comments.map(comment => `${comment.author} - ${comment.date}: ${comment.content}`).join('\n')}
+                    `;
+                } catch (error) {
+                    questDetails.textContent = `Erro ao carregar dados: ${error.message}`;
+                }
+            } else {
+                alert("Por favor, insira um ID de quest válido.");
+            }
+        });
     </script>
 </body>
 </html>
