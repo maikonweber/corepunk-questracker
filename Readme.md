@@ -1,3 +1,5 @@
+COMPRE POR ESTE LINK : https://shop.corepunk.com/?ref=sfsbnimc
+
 Corepunk Quest Tracker
 Bem-vindo ao Corepunk Quest Tracker, uma ferramenta desenvolvida para ajudar os jogadores do MMORPG Corepunk a gerenciar e acompanhar suas missões de forma eficiente e intuitiva.
 
